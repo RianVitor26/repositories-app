@@ -6,11 +6,15 @@
         <div class="w-full flex justify-end px-5">
           <Modal />
         </div>
-        <div className="w-full h-3/4 flex flex-col overflow-y-auto">
-          <Card title="Título do repositório"
-            description="Descrição do repositório: Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis, consequuntur!"
-            language="Linguagem | framework"
-            color="valor da cor" />
+        <div class="w-full h-3/4 flex flex-col overflow-y-auto">
+          <Card
+            v-for="repository in repositories"
+            :key="repository.id"
+            :title="repository.title"
+            :description="repository.description"
+            :language="repository.language"
+            :color="repository.color"
+          />
         </div>
       </div>
     </div>
@@ -20,11 +24,22 @@
 <script>
 import Card from './components/Card.vue';
 import Modal from './components/Modal.vue';
+import db from './model/database';
 
 export default {
   components: {
     Card,
     Modal,
+  },
+  data() {
+    return {
+      repositories: [],
+    };
+  },
+  created() {
+    db.repositories.toArray().then((data) => {
+      this.repositories = data;
+    });
   },
 };
 </script>
