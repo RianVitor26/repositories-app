@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "dexie": "^3.2.4",
     "element-plus": "^2.4.1",
     "vue": "^3.3.4"
   },
