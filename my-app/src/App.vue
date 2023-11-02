@@ -10,7 +10,7 @@
           <Card title="Título do repositório"
             description="Descrição do repositório: Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis, consequuntur!"
             language="Linguagem | framework"
-            color="cor" />
+            color="valor da cor" />
         </div>
       </div>
     </div>
