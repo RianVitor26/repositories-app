@@ -1,0 +1,8 @@
+{
+  "appId": "com.rianv.repos",
+  "appName": "repos",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}
