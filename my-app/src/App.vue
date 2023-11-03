@@ -41,10 +41,9 @@ export default {
     addRepository(novoRepositorio) {
       this.repositories.push(novoRepositorio);
     },
-    editRepository(id) {
+    editRepository(id, repositoryDetails) {
       // Abra o modal de edição com os detalhes do repositório
-      const repository = this.repositories.find((repo) => repo.id === id);
-      this.$refs.modal.editRepositoryModal(repository);
+      this.$refs.modal.editRepositoryModal(repositoryDetails);
     },
     deleteRepository(id) {
       const index = this.repositories.findIndex((repo) => repo.id === id);

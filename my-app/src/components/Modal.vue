@@ -1,28 +1,46 @@
 <template>
-  <el-button class="text-gray-100 px-3 py-2 my-3 rounded-md bg-sky-600 border-none hover:bg-sky-500 hover:text-gray-100" @click="dialogVisible = true">
+  <el-button class="text-gray-100 px-3 py-2 my-3 rounded-md bg-sky-600 border-none hover:bg-sky-500 hover:text-gray-100"
+    @click="dialogMode = 'create'; dialogVisible = true">
     Criar novo
   </el-button>
 
   <el-dialog class="bg-gray-900 absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 md:w-3/6 w-11/12"
     v-model="dialogVisible" draggable>
-    <form @submit.prevent="createRepo" class="flex flex-col">
-      <label for="title" class="pb-1 fon t-bold text-gray-100">Título</label>
-      <input v-model="newTitle" minlength="1" maxlength="50" placeholder="Insira o título do repo" required
-        class="mb-3 p-2 bg-gray-800 rounded-md text-gray-100" type="text">
+    <form @submit.prevent="dialogMode === 'create' ? createRepo() : updateRepo()" class="flex flex-col">
+      <label for="title" class="pb-1 font-bold text-gray-100">Título</label>
+      <input v-if="dialogMode === 'create'" v-model="newTitle" minlength="1" maxlength="50"
+        placeholder="Insira o título do repo" required class="mb-3 p-2 bg-gray-800 rounded-md text-gray-100" type="text">
+      <input v-else v-model="editRepositoryDetails.title" minlength="1" maxlength="50"
+        placeholder="Insira o título do repo" required class="mb-3 p-2 bg-gray-800 rounded-md text-gray-100" type="text">
+
       <label for="description" class="pb-1 font-bold text-gray-100">Descrição</label>
-      <textarea v-model="newDesc" minlength="1" maxlength="100" placeholder="Insira a descrição do repo" required
-        name="description" id="description" rows="5" cols="50"
+      <textarea v-if="dialogMode === 'create'" v-model="newDesc" minlength="1" maxlength="100"
+        placeholder="Insira a descrição do repo" required name="description" id="description" rows="5" cols="50"
         class="p-2 bg-gray-800 rounded-md text-gray-100"></textarea>
-      <select v-model="newLang" required class="my-5 p-2 bg-gray-800 rounded-md text-gray-100" name="languages"
-        id="languages">
+      <textarea v-else v-model="editRepositoryDetails.description" minlength="1" maxlength="100"
+        placeholder="Insira a descrição do repo" required name="description" id="description" rows="5" cols="50"
+        class="p-2 bg-gray-800 rounded-md text-gray-100"></textarea>
+
+      <select v-if="dialogMode === 'create'" v-model="newLang" required
+        class="my-5 p-2 bg-gray-800 rounded-md text-gray-100" name="languages" id="languages">
         <option v-for="language in languages" :key="language" :value="language">{{ language }}</option>
       </select>
+      <select v-else v-model="editRepositoryDetails.language" required
+        class="my-5 p-2 bg-gray-800 rounded-md text-gray-100" name="languages" id="languages">
+        <option v-for="language in languages" :key="language" :value="language">{{ language }}</option>
+      </select>
+
       <label class="pb-1 font-bold text-gray-100" for="color">Cor</label>
       <div class="flex w-full items-center justify-around">
-        <input v-model="newColor" required class="p-2 bg-gray-800 rounded-md text-gray-100" type="color">
-        <div :style="{ backgroundColor: newColor }" class="w-5 h-5 rounded-full"></div>
+        <input v-if="dialogMode === 'create'" v-model="newColor" required class="p-2 bg-gray-800 rounded-md text-gray-100"
+          type="color">
+        <input v-else v-model="editRepositoryDetails.color" required class="p-2 bg-gray-800 rounded-md text-gray-100"
+          type="color">
+        <div :style="{ backgroundColor: dialogMode === 'create' ? newColor : editRepositoryDetails.color }"
+          class="w-5 h-5 rounded-full"></div>
       </div>
-      <button type="submit" class="mt-3 bg-sky-600 p-2 rounded-md text-gray-100 w-full">Criar</button>
+      <button type="submit" class="mt-3 bg-sky-600 p-2 rounded-md text-gray-100 w-full">{{ dialogMode === 'create' ?
+        'Criar' : 'Atualizar' }}</button>
     </form>
   </el-dialog>
 </template>
@@ -31,15 +49,15 @@
 import { ref, defineEmits } from 'vue';
 import db from '../model/database';
 
-const emits = defineEmits(['addRepository', 'editRepository', 'deleteRepository']); // Adicione os eventos
-
+const emits = defineEmits(['addRepository', 'editRepository', 'deleteRepository']);
 const dialogVisible = ref(false);
-const newColor = ref('#000000');
+const dialogMode = ref('create'); // 'create' or 'edit'
+const editRepositoryDetails = ref(null);
 const languages = ['TypeScript', 'JavaScript', 'Java', 'C#', 'C', 'C++', 'Python', 'Php', 'Go', 'Ruby'];
-
 const newTitle = ref('');
 const newDesc = ref('');
 const newLang = ref('');
+const newColor = ref('#000000');
 
 const createRepo = () => {
   const novoRepositorio = {
@@ -60,5 +78,23 @@ const createRepo = () => {
   }).catch((error) => {
     console.error('Erro ao adicionar repositório:', error);
   });
-}
+};
+
+const updateRepo = () => {
+  if (editRepositoryDetails.value && typeof editRepositoryDetails.value.id === 'number') {
+    // Certifique-se de que o id seja um número
+    db.repositories.update(editRepositoryDetails.value.id, {
+      title: editRepositoryDetails.value.title,
+      description: editRepositoryDetails.value.description,
+      language: editRepositoryDetails.value.language,
+      color: editRepositoryDetails.value.color,
+    }).then(() => {
+      dialogVisible.value = false;
+      emits('editRepository', editRepositoryDetails.value.id, { ...editRepositoryDetails.value });
+    }).catch((error) => {
+      console.error('Erro ao atualizar o repositório:', error);
+    });
+  }
+};
+
 </script>

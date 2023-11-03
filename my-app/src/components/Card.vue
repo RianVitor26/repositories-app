@@ -18,7 +18,7 @@
 <script>
 export default {
   props: {
-    id: Number, // Adicione uma prop para o ID do repositório
+    id: Number,
     title: String,
     description: String,
     language: String,
@@ -26,10 +26,15 @@ export default {
   },
   methods: {
     editClick() {
-      this.$emit('edit-repository', this.id); // Emita o evento de edição com o ID
+      this.$emit('edit-repository', this.id, {
+        title: this.title,
+        description: this.description,
+        language: this.language,
+        color: this.color,
+      });
     },
     deleteClick() {
-      this.$emit('delete-repository', this.id); // Emita o evento de exclusão com o ID
+      this.$emit('delete-repository', this.id);
     },
   },
 };
