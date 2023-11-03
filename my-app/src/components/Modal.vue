@@ -28,8 +28,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 import db from '../model/database';
+
+const emits = defineEmits(['addRepository']);
 
 const dialogVisible = ref(false);
 const newColor = ref('#000000');
@@ -53,6 +55,8 @@ const createRepo = () => {
     newLang.value = '';
     newColor.value = '#000000';
     dialogVisible.value = false;
+
+    emits('addRepository', novoRepositorio);
   }).catch((error) => {
     console.error('Erro ao adicionar repositório:', error);
   });

@@ -4,7 +4,7 @@
       <h1 class="text-gray-100 font-black text-xl pt-5 text-center">Seus repositórios</h1>
       <div class="w-full h-full">
         <div class="w-11/12 flex justify-end">
-          <Modal />
+          <Modal @addRepository="addRepository" />
         </div>
         <div class="w-full h-3/4 flex flex-col overflow-y-auto">
           <Card v-for="repository in repositories" :key="repository.id"
@@ -37,8 +37,14 @@ export default {
       this.repositories = data;
     });
   },
+  methods: {
+    addRepository(novoRepositorio) {
+      this.repositories.push(novoRepositorio);
+    },
+  },
 };
 </script>
+
 
 
 
