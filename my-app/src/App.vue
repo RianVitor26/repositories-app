@@ -25,24 +25,36 @@
 import Card from './components/Card.vue';
 import Modal from './components/Modal.vue';
 import db from './model/database';
+import { ref, watch } from 'vue';
 
 export default {
-  components: {
-    Card,
-    Modal,
-  },
-  data() {
-    return {
-      repositories: [],
-    };
-  },
-  created() {
-    db.repositories.toArray().then((data) => {
-      this.repositories = data;
-    });
-  },
+ components: {
+ Card,
+ Modal,
+ },
+ data() {
+ return {
+   repositories: [],
+   repoCount: ref(0),
+ };
+ },
+ created() {
+ db.repositories.toArray().then((data) => {
+   this.repositories = data;
+   this.repoCount.value = data.length;
+ });
+
+ watch(() => this.repoCount.value, () => {
+   db.repositories.toArray().then((data) => {
+     this.repositories = data;
+   });
+ });
+ },
 };
 </script>
+
+
+
 
 <style scoped>
 .overflow-y-auto::-webkit-scrollbar {
