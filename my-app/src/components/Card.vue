@@ -1,5 +1,6 @@
 <template>
-  <div class="w-11/12 mx-auto bg-gray-800 h-fit my-5 rounded-md p-5">
+  <div class="w-11/12 mx-auto bg-gray-800 h-fit my-5 rounded-md p-5 relative">
+    <div class="w-full h-2 absolute top-0 left-0" :style="{ backgroundColor: color }"></div> 
     <h2 class="text-gray-200 font-bold">{{ title }}</h2>
     <h3 class="text-gray-200 my-3">{{ description }}</h3>
     <div class="w-full flex justify-between">
