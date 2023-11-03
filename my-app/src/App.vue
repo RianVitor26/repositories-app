@@ -4,12 +4,13 @@
       <h1 class="text-gray-100 font-black text-xl pt-5 text-center">Seus repositórios</h1>
       <div class="w-full h-full">
         <div class="w-11/12 flex justify-end">
-          <Modal @addRepository="addRepository" />
+          <Modal @addRepository="addRepository" ref="modal" @edit-repository="editRepository" />
         </div>
         <div class="w-full h-3/4 flex flex-col overflow-y-auto">
           <Card v-for="repository in repositories" :key="repository.id"
-            :title="repository.title" :description="repository.description" :language="repository.language"
-            :color="repository.color" />
+            :id="repository.id" :title="repository.title" :description="repository.description"
+            :language="repository.language" :color="repository.color"
+            @edit-repository="editRepository" @delete-repository="deleteRepository" />
         </div>
       </div>
     </div>
@@ -20,7 +21,6 @@
 import Card from './components/Card.vue';
 import Modal from './components/Modal.vue';
 import db from './model/database';
-import { ref, watch } from 'vue';
 
 export default {
   components: {
@@ -41,28 +41,19 @@ export default {
     addRepository(novoRepositorio) {
       this.repositories.push(novoRepositorio);
     },
+    editRepository(id) {
+      // Abra o modal de edição com os detalhes do repositório
+      const repository = this.repositories.find((repo) => repo.id === id);
+      this.$refs.modal.editRepositoryModal(repository);
+    },
+    deleteRepository(id) {
+      const index = this.repositories.findIndex((repo) => repo.id === id);
+
+      if (index !== -1) {
+        this.repositories.splice(index, 1);
+        db.repositories.delete(id);
+      }
+    },
   },
 };
 </script>
-
-
-
-
-
-<style scoped>
-.overflow-y-auto::-webkit-scrollbar {
-  width: 5px;
-}
-
-.overflow-y-auto::-webkit-scrollbar-track {
-  background: rgb(31 41 55);
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb {
-  background: rgb(2 132 199);
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb:hover {
-  background: rgb(64, 180, 238);
-}
-</style>

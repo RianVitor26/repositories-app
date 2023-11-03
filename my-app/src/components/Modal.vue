@@ -31,7 +31,7 @@
 import { ref, defineEmits } from 'vue';
 import db from '../model/database';
 
-const emits = defineEmits(['addRepository']);
+const emits = defineEmits(['addRepository', 'editRepository', 'deleteRepository']); // Adicione os eventos
 
 const dialogVisible = ref(false);
 const newColor = ref('#000000');
