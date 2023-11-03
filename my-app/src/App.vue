@@ -1,5 +1,5 @@
 <template>
-  <main class="w-full h-screen bg-gray-900">
+  <main class="w-full h-screen bg-gray-900 relative">
     <div class="w-full h-full bg-gray-900 md:max-w-5xl mx-auto">
       <h1 class="text-gray-100 font-black text-xl pt-5 text-center">Seus repositórios</h1>
       <div class="w-full h-full">

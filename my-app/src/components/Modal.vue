@@ -1,5 +1,5 @@
 <template>
-  <el-button class="text-gray-100 px-3 py-2 my-3 rounded-md bg-sky-600" text @click="dialogVisible = true">
+  <el-button class="text-gray-100 px-3 py-2 my-3 rounded-md bg-sky-600 border-none hover:bg-sky-500 hover:text-gray-100" @click="dialogVisible = true">
     Criar novo
   </el-button>
 
