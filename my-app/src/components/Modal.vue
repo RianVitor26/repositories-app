@@ -4,7 +4,7 @@
     Criar novo
   </el-button>
 
-  <el-dialog class="bg-gray-900 absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 md:w-3/6 w-11/12"
+  <el-dialog class="bg-gray-900 p-5 md:w-3/6 w-11/12"
     v-model="dialogVisible" draggable>
     <form @submit.prevent="dialogMode === 'create' ? createRepo() : updateRepo()" class="flex flex-col">
       <label for="title" class="pb-1 font-bold text-gray-100">Título</label>
@@ -20,9 +20,9 @@
       <textarea v-else v-model="editRepositoryDetails.description" minlength="1" maxlength="100"
         placeholder="Insira a descrição do repo" required name="description" id="description" rows="5" cols="50"
         class="p-2 bg-gray-800 rounded-md text-gray-100"></textarea>
-
+      <label for="language" class="pb-1 pt-3 font-bold text-gray-100">Linguagem</label>
       <select v-if="dialogMode === 'create'" v-model="newLang" required
-        class="my-5 p-2 bg-gray-800 rounded-md text-gray-100" name="languages" id="languages">
+        class="p-2 bg-gray-800 rounded-md text-gray-100" name="languages" id="languages">
         <option v-for="language in languages" :key="language" :value="language">{{ language }}</option>
       </select>
       <select v-else v-model="editRepositoryDetails.language" required
@@ -30,16 +30,16 @@
         <option v-for="language in languages" :key="language" :value="language">{{ language }}</option>
       </select>
 
-      <label class="pb-1 font-bold text-gray-100" for="color">Cor</label>
-      <div class="flex w-full items-center justify-around">
-        <input v-if="dialogMode === 'create'" v-model="newColor" required class="p-2 bg-gray-800 rounded-md text-gray-100"
+      <div class="flex w-full items-center justify-start gap-x-3 my-5">
+        <label class="pb-1 font-bold text-gray-100" for="color">Cor</label>
+        <input v-if="dialogMode === 'create'" v-model="newColor" required class="bg-gray-800 text-gray-100"
           type="color">
         <input v-else v-model="editRepositoryDetails.color" required class="p-2 bg-gray-800 rounded-md text-gray-100"
           type="color">
         <div :style="{ backgroundColor: dialogMode === 'create' ? newColor : editRepositoryDetails.color }"
           class="w-5 h-5 rounded-full"></div>
       </div>
-      <button type="submit" class="mt-3 bg-sky-600 p-2 rounded-md text-gray-100 w-full">{{ dialogMode === 'create' ?
+      <button type="submit" class="bg-sky-600 p-2 rounded-md text-gray-100 w-full">{{ dialogMode === 'create' ?
         'Criar' : 'Atualizar' }}</button>
     </form>
   </el-dialog>
@@ -51,7 +51,7 @@ import db from '../model/database';
 
 const emits = defineEmits(['addRepository', 'editRepository', 'deleteRepository']);
 const dialogVisible = ref(false);
-const dialogMode = ref('create'); // 'create' or 'edit'
+const dialogMode = ref('create');
 const editRepositoryDetails = ref(null);
 const languages = ['TypeScript', 'JavaScript', 'Java', 'C#', 'C', 'C++', 'Python', 'Php', 'Go', 'Ruby'];
 const newTitle = ref('');
@@ -82,7 +82,6 @@ const createRepo = () => {
 
 const updateRepo = () => {
   if (editRepositoryDetails.value && typeof editRepositoryDetails.value.id === 'number') {
-    // Certifique-se de que o id seja um número
     db.repositories.update(editRepositoryDetails.value.id, {
       title: editRepositoryDetails.value.title,
       description: editRepositoryDetails.value.description,

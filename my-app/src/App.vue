@@ -42,7 +42,6 @@ export default {
       this.repositories.push(novoRepositorio);
     },
     editRepository(id, repositoryDetails) {
-      // Abra o modal de edição com os detalhes do repositório
       this.$refs.modal.editRepositoryModal(repositoryDetails);
     },
     deleteRepository(id) {
