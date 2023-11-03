@@ -4,17 +4,12 @@
       <h1 class="text-gray-100 font-black text-xl pt-5 text-center">Seus repositórios</h1>
       <div class="w-full h-full">
         <div class="w-full flex justify-end px-5">
-          <Modal />
+          <Modal @repoAdded="addRepo" />
         </div>
         <div class="w-full h-3/4 flex flex-col overflow-y-auto">
-          <Card
-            v-for="repository in repositories"
-            :key="repository.id"
-            :title="repository.title"
-            :description="repository.description"
-            :language="repository.language"
-            :color="repository.color"
-          />
+          <Card v-for="repository in repositories" :key="repository.id"
+            :title="repository.title" :description="repository.description" :language="repository.language"
+            :color="repository.color" />
         </div>
       </div>
     </div>
@@ -37,9 +32,17 @@ export default {
     };
   },
   created() {
-    db.repositories.toArray().then((data) => {
-      this.repositories = data;
-    });
+    this.loadRepositories();
+  },
+  methods: {
+    loadRepositories() {
+      db.repositories.toArray().then((data) => {
+        this.repositories = data;
+      });
+    },
+    addRepo() {
+      this.loadRepositories(); // Reload repositories after a new one is added
+    },
   },
 };
 </script>
@@ -47,7 +50,8 @@ export default {
 <style scoped>
 .overflow-y-auto::-webkit-scrollbar {
   width: 5px;
-} 
+}
+
 .overflow-y-auto::-webkit-scrollbar-track {
   background: rgb(31 41 55);
 }

@@ -16,48 +16,40 @@
       </select>
       <label class="pb-1 font-bold text-gray-100" for="color">Cor</label>
       <div class="flex w-full items-center justify-around">
-        <input required class="p-2 bg-gray-800 rounded-md text-gray-100" type="color" v-model="selectedColor">
-        <div :style="{ backgroundColor: selectedColor }" class="w-5 h-5 rounded-full"></div>
+        <input v-model="newColor" required class="p-2 bg-gray-800 rounded-md text-gray-100" type="color">
+        <div :style="{ backgroundColor: newColor }" class="w-5 h-5 rounded-full"></div>
       </div>
       <button type="submit" class="mt-3 bg-sky-600 p-2 rounded-md text-gray-100 w-full">Criar</button>
     </form>
   </el-dialog>
 </template>
-  
+
 <script setup>
 import { ref } from 'vue';
+import db from '../model/database';
 
 const dialogVisible = ref(false);
-const selectedColor = ref('#000000');
 const languages = ['TypeScript', 'JavaScript', 'Java', 'C#', 'C', 'C++', 'Python', 'Php', 'Go', 'Ruby'];
 
 const newTitle = ref('');
 const newDesc = ref('');
 const newLang = ref('');
-</script>
-
-<script>
-import db from '../model/database';
+const newColor = ref('#000000');
 
 const createRepo = () => {
-  const novoTitulo = newTitle.value;
-  const novaDescricao = newDesc.value;
-  const novaLinguagem = newLang.value;
-  const novaCor = selectedColor.value;
-
   const novoRepositorio = {
-    title: novoTitulo,
-    description: novaDescricao,
-    language: novaLinguagem,
-    color: novaCor,
+    title: newTitle.value,
+    description: newDesc.value,
+    language: newLang.value,
+    color: newColor.value,
   };
 
   db.repositories.add(novoRepositorio).then(() => {
     newTitle.value = '';
     newDesc.value = '';
     newLang.value = '';
-    selectedColor.value = '#000000';
-    dialogVisible = false;
+    newColor.value = '#000000';
+    dialogVisible.value = false;
   }).catch((error) => {
     console.error('Erro ao adicionar repositório:', error);
   });
