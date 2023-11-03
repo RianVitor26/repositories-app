@@ -3,7 +3,7 @@
     <div class="w-full h-full bg-gray-900 md:max-w-5xl mx-auto">
       <h1 class="text-gray-100 font-black text-xl pt-5 text-center">Seus repositórios</h1>
       <div class="w-full h-full">
-        <div class="w-full flex justify-end px-5">
+        <div class="w-11/12 flex justify-end">
           <Modal @repoAdded="addRepo" />
         </div>
         <div class="w-full h-3/4 flex flex-col overflow-y-auto">
