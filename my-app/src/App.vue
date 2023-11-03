@@ -1,20 +1,15 @@
 <template>
-  <main class="w-full h-screen bg-gray-900">
+  <main class="w-full h-screen bg-gray-900 relative">
     <div class="w-full h-full bg-gray-900 md:max-w-5xl mx-auto">
       <h1 class="text-gray-100 font-black text-xl pt-5 text-center">Seus repositórios</h1>
       <div class="w-full h-full">
-        <div class="w-full flex justify-end px-5">
+        <div class="w-11/12 flex justify-end">
           <Modal />
         </div>
         <div class="w-full h-3/4 flex flex-col overflow-y-auto">
-          <Card
-            v-for="repository in repositories"
-            :key="repository.id"
-            :title="repository.title"
-            :description="repository.description"
-            :language="repository.language"
-            :color="repository.color"
-          />
+          <Card v-for="repository in repositories" :key="repository.id"
+            :title="repository.title" :description="repository.description" :language="repository.language"
+            :color="repository.color" />
         </div>
       </div>
     </div>
@@ -28,28 +23,20 @@ import db from './model/database';
 import { ref, watch } from 'vue';
 
 export default {
- components: {
- Card,
- Modal,
- },
- data() {
- return {
-   repositories: [],
-   repoCount: ref(0),
- };
- },
- created() {
- db.repositories.toArray().then((data) => {
-   this.repositories = data;
-   this.repoCount.value = data.length;
- });
-
- watch(() => this.repoCount.value, () => {
-   db.repositories.toArray().then((data) => {
-     this.repositories = data;
-   });
- });
- },
+  components: {
+    Card,
+    Modal,
+  },
+  data() {
+    return {
+      repositories: [],
+    };
+  },
+  created() {
+    db.repositories.toArray().then((data) => {
+      this.repositories = data;
+    });
+  },
 };
 </script>
 
@@ -59,7 +46,8 @@ export default {
 <style scoped>
 .overflow-y-auto::-webkit-scrollbar {
   width: 5px;
-} 
+}
+
 .overflow-y-auto::-webkit-scrollbar-track {
   background: rgb(31 41 55);
 }

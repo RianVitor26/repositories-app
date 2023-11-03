@@ -1,11 +1,15 @@
 <template>
-  <div className="bg-gray-800 w-11/12 mx-auto h-fit my-5 rounded-md p-5">
-    <h2 className="text-gray-200 font-bold">{{ title }}</h2>
-    <h3 className="text-gray-200 my-3">{{ description }}</h3>
-    <div className="w-full flex justify-between flex-wrap">
-      <div className="flex gap-3 items-center">
-        <div className="rounded-full w-4 h-4" :style="{ backgroundColor: color }"></div>
-        <h4 className="text-gray-300">{{ language }}</h4>
+  <div class="w-11/12 mx-auto bg-gray-800 h-fit my-5 rounded-md p-5">
+    <h2 class="text-gray-200 font-bold">{{ title }}</h2>
+    <h3 class="text-gray-200 my-3">{{ description }}</h3>
+    <div class="w-full flex justify-between">
+      <div class="flex gap-3 items-center">
+        <div class="w-5 h-5 rounded-full" v-bind:style="{ backgroundColor: color }"></div>
+        <h4 class="text-gray-300">{{ language }}</h4>
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="p-2 border-none rounded-md bg-sky-600 text-gray-100">Editar</button>
+        <button class="p-2 border-none rounded-md bg-red-500 text-gray-100">Excluir</button>
       </div>
     </div>
   </div>
