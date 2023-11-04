@@ -5,7 +5,7 @@
     <h3 class="text-gray-200 my-3 break-words">{{ description }}</h3>
     <div class="w-full flex justify-center gap-3 flex-wrap sm:justify-between">
       <div class="flex gap-3 items-center">
-        <div class="w-5 h-5 rounded-full" :style="{ backgroundColor: color }"></div>
+        <div class="w-5 h-5 rounded-full blur-sm" :style="{ backgroundColor: color }"></div>
         <h4 class="text-gray-300">{{ language }}</h4>
       </div>
       <div class="flex items-center gap-3">
