@@ -4,13 +4,13 @@
       <h1 class="text-gray-100 font-black text-xl pt-5 text-center">Seus repositórios</h1>
       <div class="w-full h-full">
         <div class="w-11/12 flex justify-end">
-          <Modal @addRepository="addRepository" ref="modal" @edit-repository="editRepository" />
+          <Modal @addRepository="addRepository" ref="modal" />
         </div>
         <div class="w-full h-3/4 flex flex-col overflow-y-auto">
           <Card v-for="repository in repositories" :key="repository.id"
             :id="repository.id" :title="repository.title" :description="repository.description"
             :language="repository.language" :color="repository.color"
-            @edit-repository="editRepository" @delete-repository="deleteRepository" />
+            @delete-repository="deleteRepository" />
         </div>
       </div>
     </div>
@@ -40,9 +40,6 @@ export default {
   methods: {
     addRepository(novoRepositorio) {
       this.repositories.push(novoRepositorio);
-    },
-    editRepository(id, repositoryDetails) {
-      this.$refs.modal.editRepositoryModal(repositoryDetails);
     },
     deleteRepository(id) {
       const index = this.repositories.findIndex((repo) => repo.id === id);
