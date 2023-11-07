@@ -47,7 +47,7 @@
 import { ref, defineEmits } from 'vue';
 import db from '../model/database';
 
-const emits = defineEmits(['addRepository', 'deleteRepository', 'editRepository']);
+const emits = defineEmits(['addRepository', 'deleteRepository']);
 const dialogVisible = ref(false);
 const dialogMode = ref('create');
 const languages = ['TypeScript', 'JavaScript', 'Java', 'C#', 'C', 'C++', 'Python', 'Php', 'Go', 'Ruby'];
@@ -77,32 +77,4 @@ const createRepo = () => {
     console.error('Erro ao adicionar repositório:', error);
   });
 };
-
-const updateRepo = () => {
-  const updatedRepository = {
-    id: editRepositoryDetails.id,
-    title: editRepositoryDetails.title,
-    description: editRepositoryDetails.description,
-    language: editRepositoryDetails.language,
-    color: editRepositoryDetails.color,
-  };
-
-  db.repositories.update(updatedRepository.id, updatedRepository).then(() => {
-
-    emits('editRepository', updatedRepository);
-  }).catch((error) => {
-    console.error('Erro ao atualizar repositório:', error);
-  });
-}
-
-const methods = {
- openModal() {
-   dialogVisible.value = true;
- },
- setDialogMode(mode) {
-   dialogMode.value = mode;
- },
-};
-
-
 </script>
