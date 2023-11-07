@@ -4,13 +4,12 @@
       <h1 class="text-gray-100 font-black text-xl pt-5 text-center">Seus repositórios</h1>
       <div class="w-full h-full">
         <div class="w-11/12 flex justify-end">
-          <Modal @addRepository="addRepository" ref="modal" />
+          <Modal @addRepository="addRepository" @editRepository="editRepository" ref="modal" />
         </div>
         <div class="w-full h-3/4 flex flex-col overflow-y-auto">
-          <Card v-for="repository in repositories" :key="repository.id"
-            :id="repository.id" :title="repository.title" :description="repository.description"
-            :language="repository.language" :color="repository.color"
-            @delete-repository="deleteRepository" />
+          <Card v-for="repository in repositories" :key="repository.id" :id="repository.id" :title="repository.title"
+            :description="repository.description" :language="repository.language" :color="repository.color"
+            @delete-repository="deleteRepository" @edit-repository="editRepository" />
         </div>
       </div>
     </div>
@@ -49,6 +48,12 @@ export default {
         db.repositories.delete(id);
       }
     },
+    editRepository(id) {
+      this.$refs.modal.setDialogMode('edit');
+      this.$refs.modal.openModal();
+      console.log(id);
+    },
+
   },
 };
 </script>
