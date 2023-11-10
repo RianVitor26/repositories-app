@@ -1,4 +1,4 @@
-<template>
+ m<template>
   <main class="w-full h-screen bg-gray-900 relative">
     <div class="w-full h-full bg-gray-900 md:max-w-5xl mx-auto">
       <h1 class="text-gray-100 font-black text-xl pt-5 text-center">Seus repositórios</h1>
@@ -49,9 +49,10 @@ export default {
       }
     },
     editRepository(id) {
-      this.$refs.modal.setDialogMode('edit');
-      this.$refs.modal.openModal();
-      console.log(id);
+      this.$refs.modal.dialogMode = 'edit'
+      this.$refs.modal.dialogVisible = true
+      
+      console.log(this.$refs.modal.dialogVisible);
     },
 
   },
