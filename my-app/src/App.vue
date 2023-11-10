@@ -1,4 +1,4 @@
- m<template>
+<template>
   <main class="w-full h-screen bg-gray-900 relative">
     <div class="w-full h-full bg-gray-900 md:max-w-5xl mx-auto">
       <h1 class="text-gray-100 font-black text-xl pt-5 text-center">Seus repositórios</h1>
@@ -20,6 +20,7 @@
 import Card from './components/Card.vue';
 import Modal from './components/Modal.vue';
 import db from './model/database';
+import { toRaw } from 'vue';
 
 export default {
   components: {
@@ -49,10 +50,11 @@ export default {
       }
     },
     editRepository(id) {
-      this.$refs.modal.dialogMode = 'edit'
-      this.$refs.modal.dialogVisible = true
-      
-      console.log(this.$refs.modal.dialogVisible);
+      console.log(id)
+      console.log(toRaw(this.$refs).modal)
+      this.$refs.modal.teste();
+      this.$refs.modal.setDialogMode('edit')
+      this.$refs.modal.isModalOpen(true)
     },
 
   },

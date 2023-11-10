@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, defineExpose } from 'vue';
 import db from '../model/database';
 
 const emits = defineEmits(['addRepository', 'deleteRepository', 'editRepository']);
@@ -94,11 +94,19 @@ const updateRepo = () => {
   }
 };
 
-function setDialogMode(mode) {
-  dialogMode.value = mode
-} 
+const teste = function () {
+  alert('ok')
+}
 
-function isModalOpen(value) {
+const setDialogMode = (mode) => {
+  dialogMode.value = mode
+}
+
+const isModalOpen = (value) => {
   dialogVisible.value = value
 }
+
+defineExpose({
+  teste, setDialogMode, isModalOpen
+})
 </script> 
