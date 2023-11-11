@@ -94,10 +94,6 @@ const updateRepo = () => {
   }
 };
 
-const teste = function () {
-  alert('ok')
-}
-
 const setDialogMode = (mode) => {
   dialogMode.value = mode
 }
@@ -107,6 +103,6 @@ const isModalOpen = (value) => {
 }
 
 defineExpose({
-  teste, setDialogMode, isModalOpen
+setDialogMode, isModalOpen
 })
 </script> 

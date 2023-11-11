@@ -50,9 +50,6 @@ export default {
       }
     },
     editRepository(id) {
-      console.log(id)
-      console.log(toRaw(this.$refs).modal)
-      this.$refs.modal.teste();
       this.$refs.modal.setDialogMode('edit')
       this.$refs.modal.isModalOpen(true)
     },
