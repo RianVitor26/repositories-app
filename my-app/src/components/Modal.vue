@@ -90,18 +90,19 @@ const updateRepo = () => {
       language: editRepositoryDetails.value.language,
       color: editRepositoryDetails.value.color,
     }).then(() => {
+      // Emita um novo evento personalizado para atualizar a lista de repositórios no componente pai
+      emits('repositoryUpdated', editRepositoryDetails.value.id, { ...editRepositoryDetails.value });
       // Limpe os detalhes após a atualização
       editRepositoryDetails.value = {};
       dialogVisible.value = false;
       // Emita o evento de edição para notificar outros componentes
       emits('editRepository', editRepositoryDetails.value.id, { ...editRepositoryDetails.value });
-      // Emita um novo evento personalizado para atualizar a lista de repositórios no componente pai
-      emits('repositoryUpdated', editRepositoryDetails.value.id, { ...editRepositoryDetails.value });
     }).catch((error) => {
       console.error('Erro ao atualizar o repositório:', error);
     });
   }
 };
+
 
 
 
