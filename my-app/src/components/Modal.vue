@@ -1,8 +1,11 @@
 <template>
-  <el-button class="text-gray-100 px-3 py-2 my-3 rounded-md bg-sky-600 border-none hover:bg-sky-500 hover:text-gray-100"
-    @click="dialogMode = 'create'; dialogVisible = true">
-    Criar novo
-  </el-button>
+  <div class="w-full flex justify-between items-center p-3 rounded-md">
+    <img src="../assets/github.png" alt="Mascote github image" class="w-20 h-20 object-contain">
+    <el-button class="text-gray-100 px-3 py-2 my-3 rounded-md bg-sky-600 border-none hover:bg-sky-500 hover:text-gray-100"
+      @click="dialogMode = 'create'; dialogVisible = true">
+      Criar novo
+    </el-button>
+  </div>
 
   <el-dialog class="bg-gray-900 p-5 md:w-3/6 w-11/12" v-model="dialogVisible" draggable>
     <form @submit.prevent="dialogMode === 'create' ? createRepo() : updateRepo()" class="flex flex-col">

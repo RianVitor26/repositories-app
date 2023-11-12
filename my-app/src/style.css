@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 *{
-    font-family: 'Raleway';
+    font-family: 'Raleway', Verdana, Geneva, Tahoma, sans-serif;
 }
