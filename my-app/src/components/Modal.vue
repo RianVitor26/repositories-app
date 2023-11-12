@@ -32,8 +32,10 @@
       <div class="flex w-full items-center justify-start gap-x-3 my-5">
         <label class="pb-1 font-bold text-gray-100" for="color">Cor</label>
         <input v-if="dialogMode === 'create'" v-model="newColor" required class="bg-gray-800 text-gray-100" type="color">
-        <input v-else v-model="editRepositoryDetails.color" required class="p-2 bg-gray-800 rounded-md text-gray-100"
-          type="color">
+        <input v-else :value="editRepositoryDetails.color || '#000000'"
+          @input="editRepositoryDetails.color = $event.target.value" required
+          class="p-2 bg-gray-800 rounded-md text-gray-100" type="color">
+
         <div :style="{ backgroundColor: dialogMode === 'create' ? newColor : editRepositoryDetails.color }"
           class="w-5 h-5 rounded-full"></div>
       </div>
@@ -47,7 +49,7 @@
 import { ref, defineEmits, defineExpose } from 'vue';
 import db from '../model/database';
 
-const emits = defineEmits(['addRepository', 'deleteRepository', 'editRepository']);
+const emits = defineEmits(['addRepository', 'deleteRepository', 'editRepository', 'repositoryUpdated']);
 const dialogVisible = ref(false);
 const dialogMode = ref('create');
 const languages = ['TypeScript', 'JavaScript', 'Java', 'C#', 'C', 'C++', 'Python', 'Php', 'Go', 'Ruby'];
@@ -79,20 +81,29 @@ const createRepo = () => {
 };
 
 const updateRepo = () => {
-  if (editRepositoryDetails.value && typeof editRepositoryDetails.value.id === 'number') {
+  // Certifique-se de que editRepositoryDetails.value está definido e tem uma propriedade 'id'
+  if (editRepositoryDetails.value && editRepositoryDetails.value.id) {
+    // Atualize os detalhes no banco de dados usando o Dexie
     db.repositories.update(editRepositoryDetails.value.id, {
       title: editRepositoryDetails.value.title,
       description: editRepositoryDetails.value.description,
       language: editRepositoryDetails.value.language,
       color: editRepositoryDetails.value.color,
     }).then(() => {
+      // Limpe os detalhes após a atualização
+      editRepositoryDetails.value = {};
       dialogVisible.value = false;
+      // Emita o evento de edição para notificar outros componentes
       emits('editRepository', editRepositoryDetails.value.id, { ...editRepositoryDetails.value });
+      // Emita um novo evento personalizado para atualizar a lista de repositórios no componente pai
+      emits('repositoryUpdated', editRepositoryDetails.value.id, { ...editRepositoryDetails.value });
     }).catch((error) => {
       console.error('Erro ao atualizar o repositório:', error);
     });
   }
 };
+
+
 
 const setDialogMode = (mode) => {
   dialogMode.value = mode
@@ -101,8 +112,12 @@ const setDialogMode = (mode) => {
 const isModalOpen = (value) => {
   dialogVisible.value = value
 }
+const setEditRepositoryDetails = (details) => {
+  editRepositoryDetails.value = { ...details };
+};
+
 
 defineExpose({
-setDialogMode, isModalOpen
+  setDialogMode, isModalOpen, setEditRepositoryDetails
 })
-</script> 
+</script>

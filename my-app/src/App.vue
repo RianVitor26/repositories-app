@@ -4,7 +4,7 @@
       <h1 class="text-gray-100 font-black text-xl pt-5 text-center">Seus repositórios</h1>
       <div class="w-full h-full">
         <div class="w-11/12 flex justify-end">
-          <Modal @addRepository="addRepository" @editRepository="editRepository" ref="modal" />
+          <Modal @addRepository="addRepository" @editRepository="editRepository" @repositoryUpdated="updateRepositoriesAfterEdit" ref="modal" />
         </div>
         <div class="w-full h-3/4 flex flex-col overflow-y-auto">
           <Card v-for="repository in repositories" :key="repository.id" :id="repository.id" :title="repository.title"
@@ -20,7 +20,6 @@
 import Card from './components/Card.vue';
 import Modal from './components/Modal.vue';
 import db from './model/database';
-import { toRaw } from 'vue';
 
 export default {
   components: {
@@ -49,11 +48,22 @@ export default {
         db.repositories.delete(id);
       }
     },
-    editRepository(id) {
-      this.$refs.modal.setDialogMode('edit')
-      this.$refs.modal.isModalOpen(true)
-    },
+    editRepository(repositoryId) {
+      const repository = this.repositories.find((repo) => repo.id === repositoryId);
 
+      if (repository) {
+        this.$refs.modal.setDialogMode('edit');
+        this.$refs.modal.setEditRepositoryDetails(repository);
+        this.$refs.modal.isModalOpen(true);
+      }
+    },
+    updateRepositoriesAfterEdit(repositoryId, updatedDetails) {
+      const index = this.repositories.findIndex((repo) => repo.id === repositoryId);
+
+      if (index !== -1) {
+        this.repositories.splice(index, 1, updatedDetails);
+      }
+    },
   },
 };
 </script>

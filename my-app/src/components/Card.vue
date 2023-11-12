@@ -8,8 +8,8 @@
         <h4 class="text-gray-300">{{ language }}</h4>
       </div>
       <div class="flex items-center gap-3">
-        <button class="p-2 border-none rounded-md bg-sky-600 text-gray-100" @click="editClick">Editar</button>
-        <button class="p-2 border-none rounded-md bg-red-500 text-gray-100" @click="deleteClick">Excluir</button>
+        <button class="p-1 border-none rounded-md bg-sky-600 text-gray-100" @click="editClick">Editar</button>
+        <button class="p-1 border-none rounded-md bg-red-500 text-gray-100" @click="deleteClick">Excluir</button>
       </div>
     </div>
   </div>
@@ -26,16 +26,13 @@ export default {
   },
   methods: {
     editClick() {
-      this.$emit('edit-repository', this.id, {
-        title: this.title,
-        description: this.description,
-        language: this.language,
-        color: this.color,
-      });
+      this.$emit('edit-repository', this.id);
     },
-    deleteClick() { 
+
+    deleteClick() {
       this.$emit('delete-repository', this.id);
     }
   },
 };
 </script>
+
